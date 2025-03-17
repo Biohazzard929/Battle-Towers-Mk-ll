@@ -9,8 +9,8 @@ public class Card_U : MonoBehaviour
     public Card_UScripptableObject cardSO;
     public int currentHealth; 
     public int attackPower, cardCost;
-    public TMP_Text healthText, attackText, costText, cardNameText;
-    public Image characterImage, bgImage;
+    public TMP_Text healthText, attackText, costText, cardNameText, creatureTypeText;
+    public Image characterImage, bgImage, creatureType;
 
     private Vector3 targetPoint;
     private Quaternion targetRotation;
@@ -58,6 +58,8 @@ public class Card_U : MonoBehaviour
         cardNameText.text = cardSO.cardName;
         characterImage.sprite = cardSO.characterSprite;
         bgImage.sprite = cardSO.bgSprite;
+        creatureTypeText.text = cardSO.creatureType.ToString();
+        creatureType.sprite = cardSO.creatureTypeSprite;
     }
 
     void Update()

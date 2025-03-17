@@ -6,6 +6,7 @@ using UnityEngine;
 public class Card_UScripptableObject : ScriptableObject
 {
     public string cardName;
+    public string creatureType;
 
     public int currentHealth;
     public int attackPower;
@@ -13,4 +14,5 @@ public class Card_UScripptableObject : ScriptableObject
     
     public Sprite characterSprite;
     public Sprite bgSprite;
+    public Sprite creatureTypeSprite;
 }

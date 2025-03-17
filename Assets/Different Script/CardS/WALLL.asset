@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: WALLL
   m_EditorClassIdentifier: 
   cardName: WALLL
+  creatureType: Robot
   currentHealth: 5
   attackPower: 2
-  cardCost: 1
-  characterSprite: {fileID: 21300000, guid: 259b6d09e53e38c47a865b50ffcf12ad, type: 3}
+  cardCost: 5
+  characterSprite: {fileID: 21300000, guid: 2ab0d195b479348439ae4debbd3d07a9, type: 3}
   bgSprite: {fileID: 21300000, guid: 5b8d453954560794a8e87dbd37b7847d, type: 3}
+  creatureTypeSprite: {fileID: 21300000, guid: ec76bcd44a8a4c444975d078b5f8f90f, type: 3}

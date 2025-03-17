@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Test 1
   m_EditorClassIdentifier: 
   cardName: Flynn
+  creatureType: Robot
   currentHealth: 3
   attackPower: 1
   cardCost: 2
-  characterSprite: {fileID: 21300000, guid: 004257126f8f47a4a98a9d521d09bdcc, type: 3}
-  bgSprite: {fileID: 21300000, guid: 051b6f6c81b57ac4a9ef7f65b46ae866, type: 3}
+  characterSprite: {fileID: 21300000, guid: 997f581bffccd4047924010b274df301, type: 3}
+  bgSprite: {fileID: 21300000, guid: f3fbbee728f0f1c40ab1feb45e9f9fe3, type: 3}
+  creatureTypeSprite: {fileID: 21300000, guid: ec76bcd44a8a4c444975d078b5f8f90f, type: 3}

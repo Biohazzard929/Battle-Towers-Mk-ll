@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: New Card_U
   m_EditorClassIdentifier: 
   cardName: DO WE CARE
+  creatureType: Human
   currentHealth: 3
   attackPower: 2
   cardCost: 1
-  characterSprite: {fileID: 21300000, guid: b7ae2cc239ca7dd4eb45ac845d2fa034, type: 3}
+  characterSprite: {fileID: 21300000, guid: 7ed0ba61a4641354aa6ecd4cc8631e0b, type: 3}
   bgSprite: {fileID: 21300000, guid: e3d89e19a761a504ba8b8e785d1a420e, type: 3}
+  creatureTypeSprite: {fileID: 21300000, guid: a7c5e2232b298be4d8b43a86bb1956f2, type: 3}
