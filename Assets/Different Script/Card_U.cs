@@ -91,6 +91,7 @@ public class Card_U : MonoBehaviour
                         } else
                         {
                            returnToHand();
+                            UIController.instance.showManaWarning();
                         }
                     }
                 }

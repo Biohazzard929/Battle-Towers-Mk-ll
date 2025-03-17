@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
-   
-   public List<Card_U> heldCards = new List<Card_U>();
+
+    public static HandController instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    public List<Card_U> heldCards = new List<Card_U>();
     public List<Vector3> cardPositions = new List<Vector3>();
    public Transform minPos, MaxPos;
     // Start is called before the first frame update
@@ -17,7 +23,7 @@ public class HandController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SetCardPositionsInHand()
@@ -53,5 +59,11 @@ public class HandController : MonoBehaviour
             Debug.LogError("Card at position " + cardToRemove.handPosition + " is not the same as the card being removed.");
         }
         SetCardPositionsInHand();
-    }  
+    }
+
+    public void AddCardToHand(Card_U cardToAdd)
+    {
+        heldCards.Add(cardToAdd);
+        SetCardPositionsInHand();
+    }
 }

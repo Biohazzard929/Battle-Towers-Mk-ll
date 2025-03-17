@@ -14,11 +14,16 @@ public class BattleScript : MonoBehaviour
    // public TMP_Text playerManaText;
     public int startingMana = 4, maxMana = 10;
     public int playerMana;
+
+    public int startingCardsAmount = 4;
+
     // Start is called before the first frame update
     void Start()
     {
         playerMana = startingMana;
-        //UIController.instace.SetPlayerManaText(playerMana);
+        UIController.instance.SetPlayerManaText(playerMana);
+
+        DeckController.instance.drawMultipleCards(startingCardsAmount);
     }
 
     // Update is called once per frame
@@ -26,8 +31,15 @@ public class BattleScript : MonoBehaviour
     {
         
     }
-    public void SpendPlayerMana(int manaAmount)
+    public void SpendPlayerMana(int amountToSpend)
     {
-        //playerManaText.text = "Mana: " + manaAmount;
+        playerMana = playerMana - amountToSpend;
+
+        if(playerMana < 0)
+        {
+            playerMana = 0;
+        }
+
+        UIController.instance.SetPlayerManaText(playerMana);
     }
 }
