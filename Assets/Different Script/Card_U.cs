@@ -26,10 +26,19 @@ public class Card_U : MonoBehaviour
     public LayerMask isDesktop, isPlacement;
     private bool justPressed;
 
-    private CardPlaceScript assignedPoint;
+    public CardPlaceScript assignedPoint;
+
+    public bool isPlayer;
+
+    public Animator anim;
 
     void Start()
     {
+        if(targetPoint == Vector3.zero)
+        {
+            targetPoint = transform.position;
+            targetRotation = transform.rotation;
+        }
         SetupCard();
 
         theHC = FindObjectOfType<HandController>();
@@ -70,7 +79,7 @@ public class Card_U : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0) && justPressed == false)
             {
-                if (Physics.Raycast(ray, out hit, 100f, isPlacement))
+                if (Physics.Raycast(ray, out hit, 100f, isPlacement) && BattleScript.instance.currentPhase == BattleScript.TurnOrder.playerActive)
                 {
                     CardPlaceScript selectedPoint = hit.collider.GetComponent<CardPlaceScript>();
                     if (selectedPoint.activeCard == null && selectedPoint.isPlayerPoint)
@@ -112,7 +121,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (isInHand)
+        if (isInHand && isPlayer)
         {
             MoveToPoint(theHC.cardPositions[handPosition] + new Vector3(0f, 1f, .5f), Quaternion.identity);
         }
@@ -120,7 +129,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (isInHand)
+        if (isInHand && isPlayer)
         {
             MoveToPoint(theHC.cardPositions[handPosition], theHC.minPos.rotation);
         }
@@ -128,7 +137,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (isInHand)
+        if (isInHand && BattleScript.instance.currentPhase == BattleScript.TurnOrder.playerActive && isPlayer)
         {
             isSelected = true;
             theCollider.enabled = false;
@@ -142,5 +151,21 @@ public class Card_U : MonoBehaviour
         isSelected = false;
         theCollider.enabled = true;
         MoveToPoint(theHC.cardPositions[handPosition], theHC.minPos.rotation);
+    }
+    public void DamageCard(int damageAmount)
+    {
+        currentHealth -= damageAmount;
+        if(currentHealth <= 0)
+        {
+            currentHealth = 0;
+            assignedPoint.activeCard = null;
+
+            MoveToPoint(BattleScript.instance.discard.position, BattleScript.instance.discard.rotation);
+            anim.SetTrigger("Jump");
+            Destroy(gameObject, 5f);
+        }
+        anim.SetTrigger("Hurt");
+
+        healthText.text = currentHealth.ToString();
     }
 }

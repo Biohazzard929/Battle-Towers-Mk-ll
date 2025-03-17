@@ -12,8 +12,11 @@ public class UIController : MonoBehaviour
     public float manaWarningTime;
     private float manaWarningCounter;
 
-    public GameObject drawCardButton;
+    public GameObject endTurnButton,
+        drawCardButton;
 
+    public TMP_Text playerHealthText,
+        enemyHealthText;
     private void Update()
     {
        if(manaWarningCounter > 0)
@@ -38,6 +41,16 @@ public class UIController : MonoBehaviour
         playerManaText.text = "Mana: " + manaAmount;
     }
 
+    public void SetPlayerHealthText(int healthAmount)
+    {
+        playerHealthText.text = "Player Health: " + healthAmount;
+    }
+
+    public void SetEnemyHealthText(int healthAmount)
+    {
+        enemyHealthText.text = "Enemy Health: " + healthAmount;
+    }
+
     public void showManaWarning()
     {
         manaWarning.SetActive(true);
@@ -47,5 +60,10 @@ public class UIController : MonoBehaviour
     public void DrawCard()
     {
         DeckController.instance.DrawCardForMana();
+    }
+        public void EndPlayerTurn()
+    {
+        // Call the method to end the player's turn
+        BattleScript.instance.EndPlayerTurn();
     }
 }

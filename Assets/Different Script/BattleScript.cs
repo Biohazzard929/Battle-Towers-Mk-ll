@@ -15,12 +15,18 @@ public class BattleScript : MonoBehaviour
     public int startingMana = 4, maxMana = 10;
     public int playerMana;
 
-    public int startingCardsAmount = 5;
-    public int cardsToDrawPerTurn = 0;
+    public int startingCardsAmount = 6;
+    public int cardsToDrawPerTurn = 1; 
 
     public enum TurnOrder {playerActive, playerCardAttacks, enemyActive, enemyCardAttacks};
     public TurnOrder currentPhase;
     private int currentPlayerMaxMana;
+
+    public Transform discard;
+
+    public int playerHealth;
+
+    public int enemyHealth;
 
     public void AdvanceTurn()
         {
@@ -43,7 +49,7 @@ public class BattleScript : MonoBehaviour
                 UIController.instance.drawCardButton.SetActive(true);
                 FillPlayerMana();
 
-                DeckController.instance.DrawMultipleCards(cardsToDrawPerTurn);
+                DeckController.instance.drawMultipleCards(cardsToDrawPerTurn);
                     break;
             case TurnOrder.playerCardAttacks:
                 Debug.Log("Player Card Attacks");
@@ -56,7 +62,8 @@ public class BattleScript : MonoBehaviour
                 break;           
             case TurnOrder.enemyCardAttacks:
                 Debug.Log("Enemy Card Attacks");
-                AdvanceTurn();
+                CardPointController.instance.EnemyAttack();
+                //AdvanceTurn();
                 break;            
             }
         }
@@ -68,7 +75,7 @@ public class BattleScript : MonoBehaviour
         }
      public void FillPlayerMana()
     {
-        playerMana =  currentPlayerMaxMana = startingMana;
+        playerMana =  currentPlayerMaxMana;
         UIController.instance.SetPlayerManaText(playerMana);
     }
 
@@ -77,6 +84,10 @@ public class BattleScript : MonoBehaviour
     { 
         currentPlayerMaxMana = startingMana;
         FillPlayerMana();
+        UIController.instance.SetEnemyHealthText(enemyHealth);
+        UIController.instance.SetPlayerHealthText(playerHealth);
+
+        DeckController.instance.drawMultipleCards(startingCardsAmount);
     }
 
     // Update is called once per frame
@@ -95,4 +106,46 @@ public class BattleScript : MonoBehaviour
 
         UIController.instance.SetPlayerManaText(playerMana);
     }
+
+    public void DamagePlayer(int damageAmount)
+    {
+       if(playerHealth > 0)
+        {
+            playerHealth -= damageAmount;
+
+            if(playerHealth < 0)
+            {
+                playerHealth = 0;
+            }
+
+            UIController.instance.SetPlayerHealthText(playerHealth);
+        }
+        
+        else
+        {
+            Debug.Log("Player is dead");
+        }
+    }
+
+    public void DamageEnemy(int damageAmount)
+    {
+        if(enemyHealth > 0)
+        {
+            enemyHealth -= damageAmount;
+
+            if(enemyHealth < 0)
+            {
+                enemyHealth = 0;
+            }
+
+            UIController.instance.SetEnemyHealthText(enemyHealth);
+        }
+        
+        else
+        {
+            Debug.Log("Enemy is dead");
+        }
+    }
 }
+
+
