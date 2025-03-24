@@ -6,7 +6,7 @@ public class AIController : MonoBehaviour
 {
     // Start is called before the first fr
     // ame update
-    public static EnemyController instance;
+    public static AIController instance;
     private void Awake()
     {
         instance = this;
@@ -56,11 +56,11 @@ public class AIController : MonoBehaviour
     }
         yield return new WaitForSeconds(1f);
 
-    List<CardPlacePoint> cardPoints = new List<CardPlacePoint>();
-    CardPlacePoints.AddRange(CardPointsController.instance.enemyCardpoints);
+    List<CardPlaceScript> cardPoints = new List<CardPlaceScript>();
+    cardPoints.AddRange(CardPointController.instance.enemyCardPoints);
 
     int randomPoint = Random.Range(0, cardPoints.Count);
-    CardPlacePoint selectedPoint = cardPoints[randomPoint];
+    CardPlaceScript selectedPoint = cardPoints[randomPoint];
 
     while(selectedPoint.activeCard != null&& cardPoints.Count > 0)
     {
@@ -78,10 +78,10 @@ public class AIController : MonoBehaviour
         newCard.MoveToPoint(selectedPoint.transform.position, selectedPoint.transform.rotation);
 
         selectedPoint.activeCard = newCard;
-        newCard.assignedPlace = selectedPoint;
+        newCard.assignedPoint = selectedPoint;
     }
 
-    BattleController.instance.AdvanceTurn();
+    BattleScript.instance.AdvanceTurn();
 
 }
 
