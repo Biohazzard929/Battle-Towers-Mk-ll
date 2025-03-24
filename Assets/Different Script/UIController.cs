@@ -17,6 +17,8 @@ public class UIController : MonoBehaviour
 
     public TMP_Text playerHealthText,
         enemyHealthText;
+    
+    public UIDamageIndicator playerDamage, enemyDamage;
     private void Update()
     {
        if(manaWarningCounter > 0)

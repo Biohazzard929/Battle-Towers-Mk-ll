@@ -119,6 +119,10 @@ public class BattleScript : MonoBehaviour
             }
 
             UIController.instance.SetPlayerHealthText(playerHealth);
+
+            UIDamageIndicator damageIndicator = Instantiate(UIController.instance.playerDamage, UIController.instance.playerDamage.transform.parent);
+            damageIndicator.damageText.text = "-" + damageAmount.ToString();
+            damageIndicator.gameObject.SetActive(true);
         }
         
         else
@@ -139,6 +143,9 @@ public class BattleScript : MonoBehaviour
             }
 
             UIController.instance.SetEnemyHealthText(enemyHealth);
+            UIDamageIndicator damageIndicator = Instantiate(UIController.instance.enemyDamage, UIController.instance.enemyDamage.transform.parent);
+            damageIndicator.damageText.text = "-" + damageAmount.ToString();
+            damageIndicator.gameObject.SetActive(true);
         }
         
         else
