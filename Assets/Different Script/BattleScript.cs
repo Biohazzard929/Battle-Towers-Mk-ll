@@ -62,6 +62,7 @@ public class BattleScript : MonoBehaviour
                 break;           
             case TurnOrder.enemyCardAttacks:
                 Debug.Log("Enemy Card Attacks");
+                CardPointController.instance.EnemyMovement();
                 CardPointController.instance.EnemyAttack();
                 //AdvanceTurn();
                 break;            

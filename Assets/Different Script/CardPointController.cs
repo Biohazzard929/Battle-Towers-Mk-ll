@@ -9,7 +9,7 @@ public class CardPointController : MonoBehaviour
     {
         instance = this;
     }
-    public CardPlaceScript[] playerCardPoints, enemyCardPoints;
+    public CardPlaceScript[] playerCardPoints, enemyCardPoints, enemyBackRow;
     public float timeBetweenAttacks = 1.0f; // Assuming you have this variable defined
 
     void Start()
@@ -94,6 +94,29 @@ public class CardPointController : MonoBehaviour
         BattleScript.instance.AdvanceTurn();
     }
 
+    public void EnemyMovement()
+    {
+        StartCoroutine(EnemyMovementCo());
+    }
+
+    public IEnumerator EnemyMovementCo()
+    {
+        yield return new WaitForSeconds(timeBetweenAttacks);
+        for (int i = 0; i < enemyCardPoints.Length; i++)
+        {
+            if (enemyCardPoints[i].activeCard == null)
+            {
+                if (enemyBackRow[i].activeCard != null)
+                {
+                    enemyCardPoints[i].activeCard = enemyBackRow[i].activeCard;
+                    enemyBackRow[i].activeCard = null;
+                    enemyCardPoints[i].activeCard.MoveToPoint(enemyCardPoints[i].transform.position, enemyCardPoints[i].transform.rotation);
+                }
+            }
+        }
+
+        CheckAssignedCards();
+    }
     public void CheckAssignedCards()
     {
         foreach(CardPlaceScript cardPoint in playerCardPoints)
