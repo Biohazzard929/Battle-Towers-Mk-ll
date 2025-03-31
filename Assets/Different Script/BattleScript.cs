@@ -62,8 +62,8 @@ public class BattleScript : MonoBehaviour
                 break;           
             case TurnOrder.enemyCardAttacks:
                 Debug.Log("Enemy Card Attacks");
-                CardPointController.instance.EnemyMovement();
                 CardPointController.instance.EnemyAttack();
+                CardPointController.instance.EnemyMovement();
                 //AdvanceTurn();
                 break;            
             }
@@ -124,6 +124,7 @@ public class BattleScript : MonoBehaviour
             UIDamageIndicator damageIndicator = Instantiate(UIController.instance.playerDamage, UIController.instance.playerDamage.transform.parent);
             damageIndicator.damageText.text = "-" + damageAmount.ToString();
             damageIndicator.gameObject.SetActive(true);
+         
         }
         
         else
@@ -147,6 +148,7 @@ public class BattleScript : MonoBehaviour
             UIDamageIndicator damageIndicator = Instantiate(UIController.instance.enemyDamage, UIController.instance.enemyDamage.transform.parent);
             damageIndicator.damageText.text = "-" + damageAmount.ToString();
             damageIndicator.gameObject.SetActive(true);
+            
         }
         
         else
@@ -154,6 +156,30 @@ public class BattleScript : MonoBehaviour
             Debug.Log("Enemy is dead");
         }
     }
+    public void ResolveCardInteraction(Card_U attacker, Card_U defender)
+    {
+        if (attacker.cardType == Card_UScripptableObject.CardType.Creature && defender.cardType == Card_UScripptableObject.CardType.Human)
+        {
+            // Creature beats Human
+            defender.DamageCard(attacker.attackPower + 2); // Example: double damage
+        }
+        else if (attacker.cardType == Card_UScripptableObject.CardType.Human && defender.cardType == Card_UScripptableObject.CardType.Robot)
+        {
+            // Human beats Robot
+            defender.DamageCard(attacker.attackPower + 2); // Example: double damage
+        }
+        else if (attacker.cardType == Card_UScripptableObject.CardType.Robot && defender.cardType == Card_UScripptableObject.CardType.Creature)
+        {
+            // Robot beats Creature
+            defender.DamageCard(attacker.attackPower + 2); // Example: double damage
+        }
+        else
+        {
+            // Normal damage
+            defender.DamageCard(attacker.attackPower);
+        }
+    }
 }
+
 
 

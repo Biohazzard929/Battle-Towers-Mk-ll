@@ -12,6 +12,7 @@ public class Card_U : MonoBehaviour
     public TMP_Text healthText, attackText, costText, cardNameText, creatureTypeText;
     public Image characterImage, bgImage, creatureType;
 
+
     private Vector3 targetPoint;
     private Quaternion targetRotation;
     public float moveSpeed = 5f, rotationSpeed = 540f;
@@ -31,6 +32,8 @@ public class Card_U : MonoBehaviour
     public bool isPlayer;
 
     public Animator anim;
+
+    public Card_UScripptableObject.CardType cardType;
 
     void Start()
     {
@@ -60,6 +63,8 @@ public class Card_U : MonoBehaviour
         bgImage.sprite = cardSO.bgSprite;
         creatureTypeText.text = cardSO.creatureType.ToString();
         creatureType.sprite = cardSO.creatureTypeSprite;
+        
+        cardType = cardSO.cardType;
     }
 
     void Update()
@@ -170,4 +175,5 @@ public class Card_U : MonoBehaviour
 
         healthText.text = currentHealth.ToString();
     }
+
 }

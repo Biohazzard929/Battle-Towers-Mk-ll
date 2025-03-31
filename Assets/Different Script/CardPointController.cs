@@ -39,9 +39,9 @@ public class CardPointController : MonoBehaviour
                 if(enemyCardPoints[i].activeCard != null)
                 {
                     // Attack logic here
-                    enemyCardPoints[i].activeCard.DamageCard(playerCardPoints[i].activeCard.attackPower);
+                    BattleScript.instance.ResolveCardInteraction(playerCardPoints[i].activeCard, enemyCardPoints[i].activeCard);
 
-                    
+
 
 
                 } 
@@ -60,38 +60,37 @@ public class CardPointController : MonoBehaviour
         
         BattleScript.instance.AdvanceTurn();
     }
-    public void EnemyAttack()
-    {
-        StartCoroutine(EnemyAttackCo());
-    }
+public void EnemyAttack()
+{
+    StartCoroutine(EnemyAttackCo());
+}
 
-    public IEnumerator EnemyAttackCo()
-    {
-        yield return new WaitForSeconds(timeBetweenAttacks);
+public IEnumerator EnemyAttackCo()
+{
+    yield return new WaitForSeconds(timeBetweenAttacks);
 
-        for(int i = 0; i < enemyCardPoints.Length; i++)
+    for(int i = 0; i < enemyCardPoints.Length; i++)
+    {
+        if(enemyCardPoints[i].activeCard != null)
         {
-            if(enemyCardPoints[i].activeCard != null)
+            if(playerCardPoints[i].activeCard != null)
             {
-                if(playerCardPoints[i].activeCard != null)
-                {
-                    // Attack logic here
-                    playerCardPoints[i].activeCard.DamageCard(enemyCardPoints[i].activeCard.attackPower);
-                    enemyCardPoints[i].activeCard.anim.SetTrigger("Attack");
-                } 
-                else 
-                {
-                    // Attack the player's overall health
-                    BattleScript.instance.DamagePlayer(enemyCardPoints[i].activeCard.attackPower);
-                }
-                enemyCardPoints[i].activeCard.anim.SetTrigger("Attack");
-                yield return new WaitForSeconds(timeBetweenAttacks);
+                // Use the ResolveCardInteraction method
+                BattleScript.instance.ResolveCardInteraction(enemyCardPoints[i].activeCard, playerCardPoints[i].activeCard);
+            } 
+            else 
+            {
+                // Attack the player's overall health
+                BattleScript.instance.DamagePlayer(enemyCardPoints[i].activeCard.attackPower);
             }
+            enemyCardPoints[i].activeCard.anim.SetTrigger("Attack");
+            yield return new WaitForSeconds(timeBetweenAttacks);
         }
-        
-        CheckAssignedCards();
-        
-        BattleScript.instance.AdvanceTurn();
+    }
+    
+    CheckAssignedCards();
+    
+    BattleScript.instance.AdvanceTurn();
     }
 
     public void EnemyMovement()
@@ -115,7 +114,7 @@ public class CardPointController : MonoBehaviour
             }
         }
 
-        CheckAssignedCards();
+    CheckAssignedCards();
     }
     public void CheckAssignedCards()
     {

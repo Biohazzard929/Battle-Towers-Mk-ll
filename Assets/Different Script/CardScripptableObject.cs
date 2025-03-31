@@ -15,4 +15,7 @@ public class Card_UScripptableObject : ScriptableObject
     public Sprite characterSprite;
     public Sprite bgSprite;
     public Sprite creatureTypeSprite;
+
+    public enum CardType { Creature, Human, Robot } // Define the enum
+    public CardType cardType; // Add this property
 }
