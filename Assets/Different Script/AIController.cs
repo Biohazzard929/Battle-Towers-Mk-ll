@@ -16,9 +16,20 @@ public class AIController : MonoBehaviour
     
     public Card_U cardToSpawn;
     public Transform cardSpawnPoint;
+
+    public enum AIType { placeFromDeck, handRandomPlace, handDefensive, handAttacking }
+    public AIType enemyAiType;
+
+    private List<Card_UScripptableObject> cardsInHand = new List<Card_UScripptableObject>();
+    public int startHandSize; 
+
     void Start()
     {
         SetupDeck();
+        if (enemyAiType != AIType.placeFromDeck)
+        {
+            SetupHand();
+        }
     }
 
     // Update is called once per frame
@@ -49,40 +60,70 @@ public class AIController : MonoBehaviour
     }
 
     IEnumerator EnemyActionCo()
-{
-    if(activeCards.Count == 0)
     {
-        SetupDeck();
-    }
+        if (activeCards.Count == 0)
+            {
+                SetupDeck();
+            }
         yield return new WaitForSeconds(1f);
 
-    List<CardPlaceScript> cardPoints = new List<CardPlaceScript>();
-    cardPoints.AddRange(CardPointController.instance.enemyCardPoints);
+        List<CardPlaceScript> cardPoints = new List<CardPlaceScript>();
+        cardPoints.AddRange(CardPointController.instance.enemyCardPoints);
 
-    int randomPoint = Random.Range(0, cardPoints.Count);
-    CardPlaceScript selectedPoint = cardPoints[randomPoint];
+        int randomPoint = Random.Range(0, cardPoints.Count);
+        CardPlaceScript selectedPoint = cardPoints[randomPoint];
 
-    while(selectedPoint.activeCard != null&& cardPoints.Count > 0)
-    {
-        randomPoint = Random.Range(0, cardPoints.Count);
-        selectedPoint = cardPoints[randomPoint];
-        cardPoints.RemoveAt(randomPoint);
+        if (enemyAiType == AIType.placeFromDeck || enemyAiType == AIType.handRandomPlace)
+        {
+            while (selectedPoint.activeCard != null && cardPoints.Count > 0)
+            {
+                randomPoint = Random.Range(0, cardPoints.Count);
+                selectedPoint = cardPoints[randomPoint];
+                cardPoints.RemoveAt(randomPoint);
+            }
+        }
+        switch (enemyAiType)
+        {
+            case AIType.placeFromDeck:
+
+                if (selectedPoint.activeCard == null)
+                    {
+                        Card_U newCard = Instantiate(cardToSpawn, cardSpawnPoint.position, cardSpawnPoint.rotation);
+                        newCard.cardSO = activeCards[0];
+                        activeCards.RemoveAt(0);
+                        newCard.SetupCard();
+                        newCard.MoveToPoint(selectedPoint.transform.position, selectedPoint.transform.rotation);
+
+                        selectedPoint.activeCard = newCard;
+                        newCard.assignedPoint = selectedPoint;
+                    }
+                
+                break;
+           
+            case AIType.handRandomPlace:
+
+                break;
+            
+            case AIType.handDefensive:
+               
+                break;
+
+            case AIType.handAttacking:
+
+                break;
+
+        }
+        BattleScript.instance.AdvanceTurn();
     }
 
-    if(selectedPoint.activeCard == null)
+    void SetupHand()
     {
-        Card_U newCard = Instantiate(cardToSpawn, cardSpawnPoint.position, cardSpawnPoint.rotation);
-        newCard.cardSO = activeCards[0];
+        for (int i = 0; i < startHandSize; i++) // Assuming max hand size is 5
+        {
+            cardsInHand.Add(activeCards[i]);
+        }
+
+        cardsInHand.Add(activeCards[0]);
         activeCards.RemoveAt(0);
-        newCard.SetupCard();
-        newCard.MoveToPoint(selectedPoint.transform.position, selectedPoint.transform.rotation);
-
-        selectedPoint.activeCard = newCard;
-        newCard.assignedPoint = selectedPoint;
     }
-
-    BattleScript.instance.AdvanceTurn();
-
-}
-
 }

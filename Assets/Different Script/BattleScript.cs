@@ -13,14 +13,14 @@ public class BattleScript : MonoBehaviour
     
    // public TMP_Text playerManaText;
     public int startingMana = 4, maxMana = 10;
-    public int playerMana;
+    public int playerMana, enemyMana;
 
     public int startingCardsAmount = 6;
     public int cardsToDrawPerTurn = 1; 
 
     public enum TurnOrder {playerActive, playerCardAttacks, enemyActive, enemyCardAttacks};
     public TurnOrder currentPhase;
-    private int currentPlayerMaxMana;
+    private int currentPlayerMaxMana, currentEnemeyMaxMana;
 
     public Transform discard;
 
@@ -58,7 +58,8 @@ public class BattleScript : MonoBehaviour
                 break;
             case TurnOrder.enemyActive:
                 Debug.Log("Enemy Active");
-                AdvanceTurn();
+                AIController.instance.StartAction();
+               // AdvanceTurn();
                 break;           
             case TurnOrder.enemyCardAttacks:
                 Debug.Log("Enemy Card Attacks");
