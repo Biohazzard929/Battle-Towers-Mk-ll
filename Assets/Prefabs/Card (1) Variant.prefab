@@ -136,6 +136,26 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4279686702
       objectReference: {fileID: 0}
+    - target: {fileID: 3936193667089815138, guid: bd66c37078edd8041b994fbe0836c463, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.1369e-11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936193667089815138, guid: bd66c37078edd8041b994fbe0836c463, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936193667089815138, guid: bd66c37078edd8041b994fbe0836c463, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936193667089815138, guid: bd66c37078edd8041b994fbe0836c463, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -9.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936193667089815138, guid: bd66c37078edd8041b994fbe0836c463, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 4475283553863292272, guid: bd66c37078edd8041b994fbe0836c463, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0
