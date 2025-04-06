@@ -292,6 +292,8 @@ public class AIController : MonoBehaviour
         cardsInHand.Remove(cardSO);
 
         BattleScript.instance.SpendEnemyMana(cardSO.cardCost);
+
+        //AudioManager.instance.PlaySFX(4);
     }
 
     Card_UScripptableObject SelectedCardToPlay()

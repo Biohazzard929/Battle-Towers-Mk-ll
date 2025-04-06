@@ -30,6 +30,8 @@ public class BattleScript : MonoBehaviour
 
     public bool battleEnded;
 
+    public float resultScreenDelayTime;
+
     public void AdvanceTurn()
         {
         if (battleEnded == false)
@@ -148,6 +150,8 @@ public class BattleScript : MonoBehaviour
             if(playerHealth < 0)
             {
                 playerHealth = 0;
+
+                EndBattle();
             }
 
             UIController.instance.SetPlayerHealthText(playerHealth);
@@ -155,7 +159,9 @@ public class BattleScript : MonoBehaviour
             UIDamageIndicator damageIndicator = Instantiate(UIController.instance.playerDamage, UIController.instance.playerDamage.transform.parent);
             damageIndicator.damageText.text = "-" + damageAmount.ToString();
             damageIndicator.gameObject.SetActive(true);
-         
+
+            //AudioManager.instance.PlaySFX(6);
+
         }
         
         else
@@ -181,7 +187,9 @@ public class BattleScript : MonoBehaviour
             UIDamageIndicator damageIndicator = Instantiate(UIController.instance.enemyDamage, UIController.instance.enemyDamage.transform.parent);
             damageIndicator.damageText.text = "-" + damageAmount.ToString();
             damageIndicator.gameObject.SetActive(true);
-            
+
+            //AudioManager.instance.PlaySFX(5);
+
         }
         else
         {
@@ -215,6 +223,42 @@ public class BattleScript : MonoBehaviour
     void EndBattle()
     {
         battleEnded = true;
+
+        if (enemyHealth <= 0)
+        {
+            UIController.instance.battleResultText.text = "YOU WON!";
+
+            foreach (CardPlaceScript point in CardPointController.instance.enemyCardPoints)
+            {
+                if (point.activeCard != null)
+                {
+                    point.activeCard.MoveToPoint(discard.position, point.activeCard.transform.rotation);
+                }
+            }
+
+        }
+        else
+        {
+            UIController.instance.battleResultText.text = "YOU LOST!";
+
+            foreach (CardPlaceScript point in CardPointController.instance.playerCardPoints)
+            {
+                if (point.activeCard != null)
+                {
+                    point.activeCard.MoveToPoint(discard.position, point.activeCard.transform.rotation);
+                }
+            }
+        }
+        HandController.instance.EmptyHand();
+    
+    StartCoroutine(ShowResultCo());
+    }
+
+    IEnumerator ShowResultCo()
+    {
+        yield return new WaitForSeconds(resultScreenDelayTime);
+
+        UIController.instance.battleEndScreen.SetActive(true);
     }
 }
 

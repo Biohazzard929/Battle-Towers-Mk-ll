@@ -45,8 +45,14 @@ public class CardPointController : MonoBehaviour
                 }
                 playerCardPoints[i].activeCard.anim.SetTrigger("Attack");
 
+                //AudioManager.instance.PlaySFX(1);
+
                 yield return new WaitForSeconds(timeBetweenAttacks);
             }
+            if (BattleScript.instance.battleEnded == true) // Check if battle has ended to avoid further actions
+            {
+                i = playerCardPoints.Length; // Exit the coroutine if the battle has ended
+            } 
         }
 
         CheckAssignedCards();
@@ -76,7 +82,13 @@ public class CardPointController : MonoBehaviour
                     BattleScript.instance.DamagePlayer(enemyCardPoints[i].activeCard.attackPower);
                 }
                 enemyCardPoints[i].activeCard.anim.SetTrigger("Attack");
+
+                //AudioManager.instance.PlaySFX(1);
                 yield return new WaitForSeconds(timeBetweenAttacks);
+            }
+            if (BattleScript.instance.battleEnded == true) // Check if battle has ended to avoid further actions
+            {
+                i = enemyCardPoints.Length; // Exit the coroutine if the battle has ended
             }
         }
 

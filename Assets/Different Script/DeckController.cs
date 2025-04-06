@@ -71,6 +71,8 @@ public class DeckController : MonoBehaviour
         activeCards.RemoveAt(0);
 
         HandController.instance.AddCardToHand(newCard_U);
+
+        //AudioManager.instance.PlaySFX(3);
     }
 
     public void DrawCardForMana()

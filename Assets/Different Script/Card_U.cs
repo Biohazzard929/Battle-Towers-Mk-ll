@@ -72,7 +72,7 @@ public class Card_U : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, targetPoint, Time.deltaTime * moveSpeed);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
-        if (isSelected)
+        if (isSelected && Time.timeScale != 0f && BattleScript.instance.battleEnded == false)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -80,7 +80,7 @@ public class Card_U : MonoBehaviour
             {
                 MoveToPoint(hit.point, Quaternion.identity);
             }
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && justPressed == false && BattleScript.instance.battleEnded == false)
             {
                 returnToHand();
             }
@@ -104,6 +104,8 @@ public class Card_U : MonoBehaviour
                         theHC.RemoveCardFromHand(this);
 
                         BattleScript.instance.SpendPlayerMana(cardCost);
+
+                        //AudioManager.instance.PlaySFX(4);
                         } else
                         {
                            returnToHand();
@@ -128,7 +130,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (isInHand && isPlayer && BattleScript.instance.battleEnded == false)
+        if (isInHand && isPlayer && BattleScript.instance.battleEnded == false && Time.timeScale != 0f)
         {
             MoveToPoint(theHC.cardPositions[handPosition] + new Vector3(0f, 1f, .5f), Quaternion.identity);
         }
@@ -136,7 +138,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (isInHand && isPlayer && BattleScript.instance.battleEnded == false)
+        if (isInHand && isPlayer && BattleScript.instance.battleEnded == false && Time.timeScale != 0f)
         {
             MoveToPoint(theHC.cardPositions[handPosition], theHC.minPos.rotation);
         }
@@ -144,7 +146,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (isInHand && BattleScript.instance.currentPhase == BattleScript.TurnOrder.playerActive && isPlayer && BattleScript.instance.battleEnded == false)
+        if (isInHand && BattleScript.instance.currentPhase == BattleScript.TurnOrder.playerActive && isPlayer && BattleScript.instance.battleEnded == false && Time.timeScale != 0f)
         {
             isSelected = true;
             theCollider.enabled = false;
@@ -170,8 +172,13 @@ public class Card_U : MonoBehaviour
             MoveToPoint(BattleScript.instance.discard.position, BattleScript.instance.discard.rotation);
             anim.SetTrigger("Jump");
             Destroy(gameObject, 5f);
+
+            //AudioManager.instance.PlaySFX(2);
+        } else
+        {
+            //AudioManager.instance.PlaySFX(1);
         }
-        anim.SetTrigger("Hurt");
+            anim.SetTrigger("Hurt");
 
         healthText.text = currentHealth.ToString();
     }
