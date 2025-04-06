@@ -20,7 +20,7 @@ public class BattleScript : MonoBehaviour
 
     public enum TurnOrder {playerActive, playerCardAttacks, enemyActive, enemyCardAttacks};
     public TurnOrder currentPhase;
-    private int currentPlayerMaxMana, currentEnemeyMaxMana;
+    private int currentPlayerMaxMana, currentEnemyMaxMana;
 
     public Transform discard;
 
@@ -28,45 +28,56 @@ public class BattleScript : MonoBehaviour
 
     public int enemyHealth;
 
+    public bool battleEnded;
+
     public void AdvanceTurn()
         {
+        if (battleEnded == false)
+        {
+
             currentPhase++;
-            if((int)currentPhase >= System.Enum.GetValues(typeof(TurnOrder)).Length)
+            if ((int)currentPhase >= System.Enum.GetValues(typeof(TurnOrder)).Length)
             {
                 currentPhase = 0;
             }
 
-            switch(currentPhase)
+            switch (currentPhase)
             {
-            case TurnOrder.playerActive:
-                Debug.Log("Player Active");
-                UIController.instance.endTurnButton.SetActive(true);
+                case TurnOrder.playerActive:
+                    Debug.Log("Player Active");
+                    UIController.instance.endTurnButton.SetActive(true);
 
-                if(currentPlayerMaxMana < maxMana)
-                {
-                    currentPlayerMaxMana++;
-                }
-                UIController.instance.drawCardButton.SetActive(true);
-                FillPlayerMana();
+                    if (currentPlayerMaxMana < maxMana)
+                    {
+                        currentPlayerMaxMana++;
+                    }
+                    UIController.instance.drawCardButton.SetActive(true);
+                    FillPlayerMana();
 
-                DeckController.instance.drawMultipleCards(cardsToDrawPerTurn);
+                    DeckController.instance.drawMultipleCards(cardsToDrawPerTurn);
                     break;
-            case TurnOrder.playerCardAttacks:
-                Debug.Log("Player Card Attacks");
-            // AdvanceTurn();
-                CardPointController.instance.PlayerAttack();
-                break;
-            case TurnOrder.enemyActive:
-                Debug.Log("Enemy Active");
-                AIController.instance.StartAction();
-               // AdvanceTurn();
-                break;           
-            case TurnOrder.enemyCardAttacks:
-                Debug.Log("Enemy Card Attacks");
-                CardPointController.instance.EnemyAttack();
-                CardPointController.instance.EnemyMovement();
-                //AdvanceTurn();
-                break;            
+                case TurnOrder.playerCardAttacks:
+                    Debug.Log("Player Card Attacks");
+                    // AdvanceTurn();
+                    CardPointController.instance.PlayerAttack();
+                    break;
+                case TurnOrder.enemyActive:
+                    Debug.Log("Enemy Active");
+                    if (currentEnemyMaxMana < maxMana)
+                    {
+                        currentEnemyMaxMana++;
+                    }
+                    FillEnemyMana();
+                    AIController.instance.StartAction();
+                    // AdvanceTurn();
+                    break;
+                case TurnOrder.enemyCardAttacks:
+                    Debug.Log("Enemy Card Attacks");
+                    CardPointController.instance.EnemyAttack();
+                    CardPointController.instance.EnemyMovement();
+                    //AdvanceTurn();
+                    break;
+                }
             }
         }
     public void EndPlayerTurn()
@@ -80,12 +91,19 @@ public class BattleScript : MonoBehaviour
         playerMana =  currentPlayerMaxMana;
         UIController.instance.SetPlayerManaText(playerMana);
     }
+    public void FillEnemyMana()
+    {
+        enemyMana = currentEnemyMaxMana;
+        UIController.instance.SetEnemeyMana(enemyMana);
+    }
 
     // Start is called before the first frame update
     void Start()
     { 
         currentPlayerMaxMana = startingMana;
         FillPlayerMana();
+        currentEnemyMaxMana = startingMana;
+        FillEnemyMana();
         UIController.instance.SetEnemyHealthText(enemyHealth);
         UIController.instance.SetPlayerHealthText(playerHealth);
 
@@ -109,9 +127,21 @@ public class BattleScript : MonoBehaviour
         UIController.instance.SetPlayerManaText(playerMana);
     }
 
+    public void SpendEnemyMana(int amountToSpend)
+    {
+        enemyMana -= amountToSpend;
+
+        if (enemyMana < 0)
+        {
+            enemyMana = 0;
+        }
+
+        UIController.instance.SetEnemeyMana(enemyMana);
+    }
+
     public void DamagePlayer(int damageAmount)
     {
-       if(playerHealth > 0)
+       if(playerHealth > 0 || !battleEnded)
         {
             playerHealth -= damageAmount;
 
@@ -136,13 +166,15 @@ public class BattleScript : MonoBehaviour
 
     public void DamageEnemy(int damageAmount)
     {
-        if(enemyHealth > 0)
+        if(enemyHealth > 0 || !battleEnded)
         {
             enemyHealth -= damageAmount;
 
             if(enemyHealth < 0)
             {
                 enemyHealth = 0;
+
+                EndBattle(); // End the battle if enemy health is 0
             }
 
             UIController.instance.SetEnemyHealthText(enemyHealth);
@@ -151,10 +183,10 @@ public class BattleScript : MonoBehaviour
             damageIndicator.gameObject.SetActive(true);
             
         }
-        
         else
         {
             Debug.Log("Enemy is dead");
+            EndBattle(); // End the battle if enemy health is 0
         }
     }
     public void ResolveCardInteraction(Card_U attacker, Card_U defender)
@@ -179,6 +211,10 @@ public class BattleScript : MonoBehaviour
             // Normal damage
             defender.DamageCard(attacker.attackPower);
         }
+    }
+    void EndBattle()
+    {
+        battleEnded = true;
     }
 }
 

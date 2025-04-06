@@ -84,7 +84,7 @@ public class Card_U : MonoBehaviour
             {
                 returnToHand();
             }
-            if (Input.GetMouseButtonDown(0) && justPressed == false)
+            if (Input.GetMouseButtonDown(0) && justPressed == false && BattleScript.instance.battleEnded == false)
             {
                 if (Physics.Raycast(ray, out hit, 100f, isPlacement) && BattleScript.instance.currentPhase == BattleScript.TurnOrder.playerActive)
                 {
@@ -128,7 +128,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (isInHand && isPlayer)
+        if (isInHand && isPlayer && BattleScript.instance.battleEnded == false)
         {
             MoveToPoint(theHC.cardPositions[handPosition] + new Vector3(0f, 1f, .5f), Quaternion.identity);
         }
@@ -136,7 +136,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (isInHand && isPlayer)
+        if (isInHand && isPlayer && BattleScript.instance.battleEnded == false)
         {
             MoveToPoint(theHC.cardPositions[handPosition], theHC.minPos.rotation);
         }
@@ -144,7 +144,7 @@ public class Card_U : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (isInHand && BattleScript.instance.currentPhase == BattleScript.TurnOrder.playerActive && isPlayer)
+        if (isInHand && BattleScript.instance.currentPhase == BattleScript.TurnOrder.playerActive && isPlayer && BattleScript.instance.battleEnded == false)
         {
             isSelected = true;
             theCollider.enabled = false;
