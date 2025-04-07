@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cde51a280bd44f42a29aa9f2c100ac6, type: 3}
-  m_Name: WALLL
+  m_Name: Alien
   m_EditorClassIdentifier: 
-  cardName: EVIL ROBOT CHICKEN
+  cardName: Alien
   creatureType: Robot
-  currentHealth: 2
-  attackPower: 5
-  cardCost: 4
-  characterSprite: {fileID: 21300000, guid: 46f01f4df03918243af6f84cf960ad75, type: 3}
-  bgSprite: {fileID: 21300000, guid: a7b556279ae8e324ea68134051a05d45, type: 3}
-  creatureTypeSprite: {fileID: 21300000, guid: ec76bcd44a8a4c444975d078b5f8f90f, type: 3}
+  currentHealth: 0
+  attackPower: 0
+  cardCost: 0
+  characterSprite: {fileID: 0}
+  bgSprite: {fileID: 0}
+  creatureTypeSprite: {fileID: 0}
   cardType: 2
