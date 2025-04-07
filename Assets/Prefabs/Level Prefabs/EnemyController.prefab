@@ -58,7 +58,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d16b8c5d84d344a40b18d3661be03c79, type: 2}
   cardToSpawn: {fileID: 3523868526970156617}
   cardSpawnPoint: {fileID: 2478695626111205457}
-  enemyAiType: 2
+  enemyAiType: 3
   startHandSize: 5
 --- !u!1 &5514308505085213340
 GameObject:
@@ -142,7 +142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6155309297322155537, guid: 41368487e29d9a540b85eadbf6a0c34e, type: 3}
       propertyPath: m_fontSize
-      value: 28.75
+      value: 31.95
       objectReference: {fileID: 0}
     - target: {fileID: 6399148429591941296, guid: 41368487e29d9a540b85eadbf6a0c34e, type: 3}
       propertyPath: cardSO

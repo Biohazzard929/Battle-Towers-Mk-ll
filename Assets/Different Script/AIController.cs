@@ -83,7 +83,7 @@ public class AIController : MonoBehaviour
         }
 
         List<CardPlaceScript> cardPoints = new List<CardPlaceScript>();
-        cardPoints.AddRange(CardPointController.instance.enemyCardPoints);
+        cardPoints.AddRange(CardPointController.instance.enemyBackRow);
 
         int randomPoint = Random.Range(0, cardPoints.Count);
         CardPlaceScript selectedPoint = cardPoints[randomPoint];

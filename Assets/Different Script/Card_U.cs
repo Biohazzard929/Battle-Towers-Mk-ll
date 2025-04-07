@@ -152,6 +152,13 @@ public class Card_U : MonoBehaviour
             theCollider.enabled = false;
 
             justPressed = true;
+
+            // if (placePoint != null && placePoint.isPlayerPoint == isPlayer)
+            // {
+            //     placePoint.PlaceCard(this);
+            //     isInHand = false;
+            //     HandController.instance.RemoveCardFromHand(this);
+            // }
         }
     }
 
@@ -161,10 +168,10 @@ public class Card_U : MonoBehaviour
         theCollider.enabled = true;
         MoveToPoint(theHC.cardPositions[handPosition], theHC.minPos.rotation);
     }
-    public void DamageCard(int damageAmount)
+    public void DamageCard(int damageAmount, bool isCritical)
     {
         currentHealth -= damageAmount;
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
             assignedPoint.activeCard = null;
@@ -174,13 +181,24 @@ public class Card_U : MonoBehaviour
             Destroy(gameObject, 5f);
 
             //AudioManager.instance.PlaySFX(2);
-        } else
+        }
+        else
         {
             //AudioManager.instance.PlaySFX(1);
         }
-            anim.SetTrigger("Hurt");
+        anim.SetTrigger("Hurt");
 
         healthText.text = currentHealth.ToString();
+
+        // Instantiate the damage indicator above the card
+        Vector3 worldPosition = transform.position + new Vector3(0, 1.5f, 0); // Adjust the offset as needed
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+        UIDamageIndicator damageIndicator = Instantiate(UIController.instance.playerDamage, UIController.instance.transform);
+        damageIndicator.transform.position = screenPosition;
+        damageIndicator.damageText.text = (isCritical ? "CRITICAL! -" : "-") + damageAmount.ToString();
+        damageIndicator.damageText.color = isCritical ? Color.red : Color.white; // Change color for critical damage
+        damageIndicator.SetLifetime(1f); // Set a reduced lifetime
+        damageIndicator.gameObject.SetActive(true);
     }
 
 }

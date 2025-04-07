@@ -65,6 +65,7 @@ public class BattleScript : MonoBehaviour
                     break;
                 case TurnOrder.enemyActive:
                     Debug.Log("Enemy Active");
+                    CardPointController.instance.EnemyMovement();
                     if (currentEnemyMaxMana < maxMana)
                     {
                         currentEnemyMaxMana++;
@@ -76,7 +77,6 @@ public class BattleScript : MonoBehaviour
                 case TurnOrder.enemyCardAttacks:
                     Debug.Log("Enemy Card Attacks");
                     CardPointController.instance.EnemyAttack();
-                    CardPointController.instance.EnemyMovement();
                     //AdvanceTurn();
                     break;
                 }
@@ -176,9 +176,9 @@ public class BattleScript : MonoBehaviour
         {
             enemyHealth -= damageAmount;
 
-            if(enemyHealth < 0)
+            if(enemyHealth <= 0)
             {
-                enemyHealth = 0;
+               // enemyHealth = 0;
 
                 EndBattle(); // End the battle if enemy health is 0
             }
@@ -199,25 +199,30 @@ public class BattleScript : MonoBehaviour
     }
     public void ResolveCardInteraction(Card_U attacker, Card_U defender)
     {
-        if (attacker.cardType == Card_UScripptableObject.CardType.Creature && defender.cardType == Card_UScripptableObject.CardType.Human)
+        bool isCritical = false;
+
+        if (attacker.cardType == Card_UScripptableObject.CardType.Robot && defender.cardType == Card_UScripptableObject.CardType.Human)
         {
-            // Creature beats Human
-            defender.DamageCard(attacker.attackPower + 2); // Example: double damage
+            // Mechanical beats Human
+            defender.DamageCard(attacker.attackPower + 2, true); // Example: double damage
+            isCritical = true;
         }
-        else if (attacker.cardType == Card_UScripptableObject.CardType.Human && defender.cardType == Card_UScripptableObject.CardType.Robot)
+        else if (attacker.cardType == Card_UScripptableObject.CardType.Human && defender.cardType == Card_UScripptableObject.CardType.Creature)
         {
-            // Human beats Robot
-            defender.DamageCard(attacker.attackPower + 2); // Example: double damage
+            // Human beats Creature
+            defender.DamageCard(attacker.attackPower + 2, true); // Example: double damage
+            isCritical = true;
         }
-        else if (attacker.cardType == Card_UScripptableObject.CardType.Robot && defender.cardType == Card_UScripptableObject.CardType.Creature)
+        else if (attacker.cardType == Card_UScripptableObject.CardType.Creature && defender.cardType == Card_UScripptableObject.CardType.Robot)
         {
-            // Robot beats Creature
-            defender.DamageCard(attacker.attackPower + 2); // Example: double damage
+            // Creature beats Mechanical
+            defender.DamageCard(attacker.attackPower + 2, true); // Example: double damage
+            isCritical = true;
         }
         else
         {
             // Normal damage
-            defender.DamageCard(attacker.attackPower);
+            defender.DamageCard(attacker.attackPower, false);
         }
     }
     void EndBattle()
@@ -229,27 +234,35 @@ public class BattleScript : MonoBehaviour
             UIController.instance.battleResultText.text = "YOU WON!";
 
             foreach (CardPlaceScript point in CardPointController.instance.enemyCardPoints)
-            {
-                if (point.activeCard != null)
                 {
-                    point.activeCard.MoveToPoint(discard.position, point.activeCard.transform.rotation);
+                    if (point.activeCard != null)
+                    {
+                        point.activeCard.MoveToPoint(discard.position, point.activeCard.transform.rotation);
+                    }
                 }
-            }
+                foreach (CardPlaceScript point in CardPointController.instance.enemyBackRow)
+                {
+                    if (point.activeCard != null)
+                    {
+                        point.activeCard.MoveToPoint(discard.position, point.activeCard.transform.rotation);
+                    }
+                }
+        
 
-        }
+        }   
         else
-        {
-            UIController.instance.battleResultText.text = "YOU LOST!";
-
-            foreach (CardPlaceScript point in CardPointController.instance.playerCardPoints)
             {
-                if (point.activeCard != null)
+                UIController.instance.battleResultText.text = "YOU LOST!";
+
+                foreach (CardPlaceScript point in CardPointController.instance.playerCardPoints)
                 {
-                    point.activeCard.MoveToPoint(discard.position, point.activeCard.transform.rotation);
+                    if (point.activeCard != null)
+                    {
+                        point.activeCard.MoveToPoint(discard.position, point.activeCard.transform.rotation);
+                    }
                 }
             }
-        }
-        HandController.instance.EmptyHand();
+        //HandController.instance.EmptyHand();
     
     StartCoroutine(ShowResultCo());
     }

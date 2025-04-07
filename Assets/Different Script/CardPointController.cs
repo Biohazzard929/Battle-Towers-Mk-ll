@@ -52,7 +52,7 @@ public class CardPointController : MonoBehaviour
             if (BattleScript.instance.battleEnded == true) // Check if battle has ended to avoid further actions
             {
                 i = playerCardPoints.Length; // Exit the coroutine if the battle has ended
-            } 
+            }
         }
 
         CheckAssignedCards();
@@ -114,6 +114,10 @@ public class CardPointController : MonoBehaviour
                     enemyCardPoints[i].activeCard = enemyBackRow[i].activeCard;
                     enemyBackRow[i].activeCard = null;
                     enemyCardPoints[i].activeCard.MoveToPoint(enemyCardPoints[i].transform.position, enemyCardPoints[i].transform.rotation);
+
+                    enemyCardPoints[i].activeCard.assignedPoint = enemyCardPoints[i];
+                    // Wait for the card to move before continuing
+                    yield return new WaitForSeconds(timeBetweenAttacks);
                 }
             }
         }
@@ -129,6 +133,7 @@ public class CardPointController : MonoBehaviour
             {
                 if (cardPoint.activeCard.currentHealth <= 0)
                 {
+                    Debug.Log($"Nullifying player card at {cardPoint.name}");
                     cardPoint.activeCard = null;
                 }
             }
@@ -140,6 +145,19 @@ public class CardPointController : MonoBehaviour
             {
                 if (cardPoint.activeCard.currentHealth <= 0)
                 {
+                    Debug.Log($"Nullifying enemy card at {cardPoint.name}");
+                    cardPoint.activeCard = null;
+                }
+            }
+        }
+
+        foreach (CardPlaceScript cardPoint in enemyBackRow)
+        {
+            if (cardPoint.activeCard != null)
+            {
+                if (cardPoint.activeCard.currentHealth <= 0)
+                {
+                    Debug.Log($"Nullifying enemy back row card at {cardPoint.name}");
                     cardPoint.activeCard = null;
                 }
             }

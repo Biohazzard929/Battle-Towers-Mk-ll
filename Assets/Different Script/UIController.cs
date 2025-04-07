@@ -52,12 +52,12 @@ public class UIController : MonoBehaviour
 
     public void SetPlayerManaText(int manaAmount)
     {
-        playerManaText.text = "Mana: " + manaAmount;
+        playerManaText.text = "" + manaAmount;
     }
 
     public void SetEnemeyMana(int manaAmount)
     {
-        enemyManaText.text = "Mana: " + manaAmount;
+        enemyManaText.text = "" + manaAmount;
     }
 
     public void SetPlayerHealthText(int healthAmount)

@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cde51a280bd44f42a29aa9f2c100ac6, type: 3}
   m_Name: Test 2
   m_EditorClassIdentifier: 
-  cardName: Alex
+  cardName: Mystical Koi Fish
   creatureType: Creature
-  currentHealth: 2
-  attackPower: 2
+  currentHealth: 5
+  attackPower: 0
   cardCost: 2
-  characterSprite: {fileID: 21300000, guid: c9a6e6fee7767a44fb68a9aed7c61e56, type: 3}
+  characterSprite: {fileID: 21300000, guid: 1deef11a29f2aba458938c55c2cbc6b3, type: 3}
   bgSprite: {fileID: 21300000, guid: 5b8d453954560794a8e87dbd37b7847d, type: 3}
-  creatureTypeSprite: {fileID: 21300000, guid: ec76bcd44a8a4c444975d078b5f8f90f, type: 3}
+  creatureTypeSprite: {fileID: 21300000, guid: d4b054d09a21b014ea3358173b024865, type: 3}
+  cardType: 0
