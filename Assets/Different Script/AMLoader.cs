@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*public class AMLoader : MonoBehaviour
+public class AMLoader : MonoBehaviour
 {
     public AudioManager theAM;
 
@@ -14,4 +14,4 @@ using UnityEngine;
             DontDestroyOnLoad(AudioManager.instance.gameObject);
         }
     }
-}*/
+}

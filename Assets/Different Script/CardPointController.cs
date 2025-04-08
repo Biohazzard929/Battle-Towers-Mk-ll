@@ -45,7 +45,7 @@ public class CardPointController : MonoBehaviour
                 }
                 playerCardPoints[i].activeCard.anim.SetTrigger("Attack");
 
-                //AudioManager.instance.PlaySFX(1);
+                AudioManager.instance.PlaySFX(1);
 
                 yield return new WaitForSeconds(timeBetweenAttacks);
             }
@@ -83,7 +83,7 @@ public class CardPointController : MonoBehaviour
                 }
                 enemyCardPoints[i].activeCard.anim.SetTrigger("Attack");
 
-                //AudioManager.instance.PlaySFX(1);
+                AudioManager.instance.PlaySFX(1);
                 yield return new WaitForSeconds(timeBetweenAttacks);
             }
             if (BattleScript.instance.battleEnded == true) // Check if battle has ended to avoid further actions

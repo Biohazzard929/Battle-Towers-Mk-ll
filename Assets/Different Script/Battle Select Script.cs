@@ -23,6 +23,6 @@ public class BattleSelectScript : MonoBehaviour
     {
         SceneManager.LoadScene(levelToLoad);
 
-        //AudioManager.instance.PlaySFX(0);
+        AudioManager.instance.PlaySFX(0);
     }
 }

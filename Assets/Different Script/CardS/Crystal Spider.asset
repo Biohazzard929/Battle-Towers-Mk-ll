@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cde51a280bd44f42a29aa9f2c100ac6, type: 3}
-  m_Name: Mecha Chicken
+  m_Name: Crystal Spider
   m_EditorClassIdentifier: 
-  cardName: EVIL ROBOT CHICKEN
-  creatureType: Robot
-  currentHealth: 2
-  attackPower: 3
-  cardCost: 2
-  characterSprite: {fileID: 21300000, guid: 46f01f4df03918243af6f84cf960ad75, type: 3}
+  cardName: Crystal Spider
+  creatureType: Creature
+  currentHealth: 6
+  attackPower: 2
+  cardCost: 5
+  characterSprite: {fileID: 21300000, guid: 9b3b2393368cce04e8db4420a9ef5bcd, type: 3}
   bgSprite: {fileID: 21300000, guid: 7279675a2185eca4d824a94ddfe39a6c, type: 3}
-  creatureTypeSprite: {fileID: 21300000, guid: ec76bcd44a8a4c444975d078b5f8f90f, type: 3}
-  cardType: 2
+  creatureTypeSprite: {fileID: 21300000, guid: d4b054d09a21b014ea3358173b024865, type: 3}
+  cardType: 0

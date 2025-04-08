@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-          //AudioManager.instance.PlaySFX.instance.PlayMenuMusic();
+          AudioManager.instance.PlayMenuMusic();
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(battleSelectScene);
 
-          //AudioManager.instance.PlaySFX.instance.PlaySFX(0);
+          AudioManager.instance.PlaySFX(0);
     }
 
     public void QuitGame()
@@ -32,6 +32,6 @@ public class MainMenu : MonoBehaviour
 
         Debug.Log("Quitting Game");
 
-        //AudioManager.instance.PlaySFX.instance.PlaySFX(0);
+        AudioManager.instance.PlaySFX(0);
     }
 }

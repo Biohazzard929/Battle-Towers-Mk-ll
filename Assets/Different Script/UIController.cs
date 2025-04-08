@@ -92,7 +92,7 @@ public class UIController : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        //AudioManager.instance.PlaySFX(0);
+        AudioManager.instance.PlaySFX(0);
     }
 
     public void RestartLevel()
@@ -101,7 +101,7 @@ public class UIController : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        //AudioManager.instance.PlaySFX(0);
+        AudioManager.instance.PlaySFX(0);
     }
 
     public void ChooseNewBattle()
@@ -110,7 +110,7 @@ public class UIController : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        ////AudioManager.instance.PlaySFX(0);
+        //AudioManager.instance.PlaySFX(0);
     }
 
     public void PauseUnpause()
@@ -128,6 +128,6 @@ public class UIController : MonoBehaviour
             Time.timeScale = 1f;
         }
 
-        //AudioManager.instance.PlaySFX(0);
+        AudioManager.instance.PlaySFX(0);
     }
 }

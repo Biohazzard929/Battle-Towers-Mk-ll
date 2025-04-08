@@ -108,7 +108,7 @@ public class Card_U : MonoBehaviour
 
                         BattleScript.instance.SpendPlayerMana(cardCost);
 
-                        //AudioManager.instance.PlaySFX(4);
+                        AudioManager.instance.PlaySFX(4);
                         } else
                         {
                            returnToHand();
@@ -192,11 +192,11 @@ public class Card_U : MonoBehaviour
             anim.SetTrigger("Jump");
             Destroy(gameObject, 5f);
 
-            //AudioManager.instance.PlaySFX(2);
+            AudioManager.instance.PlaySFX(2);
         }
         else
         {
-            //AudioManager.instance.PlaySFX(1);
+            AudioManager.instance.PlaySFX(1);
         }
         anim.SetTrigger("Hurt");
 

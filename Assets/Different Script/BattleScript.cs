@@ -159,7 +159,7 @@ public class BattleScript : MonoBehaviour
             damageIndicator.damageText.text = "-" + damageAmount.ToString();
             damageIndicator.gameObject.SetActive(true);
 
-            //AudioManager.instance.PlaySFX(6);
+            AudioManager.instance.PlaySFX(6);
 
         }
         
@@ -187,7 +187,7 @@ public class BattleScript : MonoBehaviour
             damageIndicator.damageText.text = "-" + damageAmount.ToString();
             damageIndicator.gameObject.SetActive(true);
 
-            //AudioManager.instance.PlaySFX(5);
+            AudioManager.instance.PlaySFX(5);
 
         }
         else
