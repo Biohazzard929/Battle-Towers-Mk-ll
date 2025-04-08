@@ -17,7 +17,7 @@ MonoBehaviour:
   currentHealth: 2
   attackPower: 3
   cardCost: 2
-  characterSprite: {fileID: 21300000, guid: 46f01f4df03918243af6f84cf960ad75, type: 3}
+  characterSprite: {fileID: 21300000, guid: 1d620482fbe5fff40949bfe7396958ab, type: 3}
   bgSprite: {fileID: 21300000, guid: 7279675a2185eca4d824a94ddfe39a6c, type: 3}
   creatureTypeSprite: {fileID: 21300000, guid: ec76bcd44a8a4c444975d078b5f8f90f, type: 3}
   cardType: 2
