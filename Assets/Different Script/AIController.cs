@@ -24,7 +24,7 @@ public class AIController : MonoBehaviour
     private List<Card_UScripptableObject> cardsInHand = new List<Card_UScripptableObject>();
     public int startHandSize; 
 
-    void Start()
+  void Start()
     {
         SetupDeck();
         if (enemyAiType != AIType.placeFromDeck)
@@ -62,23 +62,26 @@ public class AIController : MonoBehaviour
 
     IEnumerator EnemyActionCo()
     {
-        if (activeCards.Count == 0)
-            {
-                SetupDeck();
-            }
-        yield return new WaitForSeconds(1f);
+        Debug.Log("EnemyActionCo started");
 
-        if(enemyAiType != AIType.placeFromDeck)
+        if (enemyAiType != AIType.placeFromDeck)
         {
-            for(int i = 0; i < BattleScript.instance.cardsToDrawPerTurn; i++)
+            for (int i = 0; i < BattleScript.instance.cardsToDrawPerTurn; i++)
             {
-             cardsInHand.Add(activeCards[0]);
-             activeCards.RemoveAt(0);
-                
                 if (activeCards.Count == 0)
                 {
                     SetupDeck();
                 }
+
+                Card_U newCard = Instantiate(cardToSpawn, cardSpawnPoint.position, cardSpawnPoint.rotation);
+                newCard.cardSO = activeCards[0];
+                newCard.SetupCard();
+                EnemyHandController.instance.AddCardToHand(newCard);
+
+                cardsInHand.Add(activeCards[0]);
+                activeCards.RemoveAt(0);
+
+                Debug.Log("Card drawn: " + newCard.cardSO.cardName);
             }
         }
 
@@ -90,7 +93,7 @@ public class AIController : MonoBehaviour
 
         if (enemyAiType == AIType.placeFromDeck || enemyAiType == AIType.handRandomPlace)
         {
-           cardPoints.Remove(selectedPoint);
+            cardPoints.Remove(selectedPoint);
 
             while (selectedPoint.activeCard != null && cardPoints.Count > 0)
             {
@@ -99,8 +102,8 @@ public class AIController : MonoBehaviour
                 cardPoints.RemoveAt(randomPoint);
             }
         }
-        
-        Card_UScripptableObject selectedCard = null;
+
+        Card_U selectedCard = null;
         int iterations = 0;
 
         List<CardPlaceScript> preferredPoints = new List<CardPlaceScript>();
@@ -111,19 +114,21 @@ public class AIController : MonoBehaviour
             case AIType.placeFromDeck:
 
                 if (selectedPoint.activeCard == null)
-                    {
-                        Card_U newCard = Instantiate(cardToSpawn, cardSpawnPoint.position, cardSpawnPoint.rotation);
-                        newCard.cardSO = activeCards[0];
-                        activeCards.RemoveAt(0);
-                        newCard.SetupCard();
-                        newCard.MoveToPoint(selectedPoint.transform.position, selectedPoint.transform.rotation);
+                {
+                    Card_U newCard = Instantiate(cardToSpawn, cardSpawnPoint.position, cardSpawnPoint.rotation);
+                    newCard.cardSO = activeCards[0];
+                    activeCards.RemoveAt(0);
+                    newCard.SetupCard();
+                    newCard.MoveToPoint(selectedPoint.transform.position, selectedPoint.transform.rotation);
 
-                        selectedPoint.activeCard = newCard;
-                        newCard.assignedPoint = selectedPoint;
-                    }
-                
+                    selectedPoint.activeCard = newCard;
+                    newCard.assignedPoint = selectedPoint;
+
+                    Debug.Log("Card placed from deck: " + newCard.cardSO.cardName);
+                }
+
                 break;
-           
+
             case AIType.handRandomPlace:
 
                 selectedCard = SelectedCardToPlay();
@@ -133,8 +138,7 @@ public class AIController : MonoBehaviour
                 {
                     PlayCard(selectedCard, selectedPoint);
 
-
-                    //check if we should try play another card
+                    // Check if we should try to play another card
                     selectedCard = SelectedCardToPlay();
 
                     iterations--;
@@ -172,11 +176,10 @@ public class AIController : MonoBehaviour
                     }
                 }
 
-
                 iterations = 50;
                 while (selectedCard != null && iterations > 0 && preferredPoints.Count + secondaryPoints.Count > 0)
                 {
-                    //pick a point to use
+                    // Pick a point to use
                     if (preferredPoints.Count > 0)
                     {
                         int selectPoint = Random.Range(0, preferredPoints.Count);
@@ -194,14 +197,13 @@ public class AIController : MonoBehaviour
 
                     PlayCard(selectedCard, selectedPoint);
 
-                    //check if we should try play another
+                    // Check if we should try to play another
                     selectedCard = SelectedCardToPlay();
 
                     iterations--;
 
                     yield return new WaitForSeconds(CardPointController.instance.timeBetweenAttacks);
                 }
-
 
                 break;
 
@@ -227,11 +229,10 @@ public class AIController : MonoBehaviour
                     }
                 }
 
-
                 iterations = 50;
                 while (selectedCard != null && iterations > 0 && preferredPoints.Count + secondaryPoints.Count > 0)
                 {
-                    //pick a point to use
+                    // Pick a point to use
                     if (preferredPoints.Count > 0)
                     {
                         int selectPoint = Random.Range(0, preferredPoints.Count);
@@ -249,7 +250,7 @@ public class AIController : MonoBehaviour
 
                     PlayCard(selectedCard, selectedPoint);
 
-                    //check if we should try play another
+                    // Check if we should try to play another
                     selectedCard = SelectedCardToPlay();
 
                     iterations--;
@@ -258,52 +259,39 @@ public class AIController : MonoBehaviour
                 }
 
                 break;
-
         }
         BattleScript.instance.AdvanceTurn();
+        Debug.Log("EnemyActionCo ended");
     }
 
     void SetupHand()
     {
-        for (int i = 0; i < startHandSize; i++)
-        {
-            if (activeCards.Count == 0)
-            {
-                SetupDeck();
-            }
-
-            cardsInHand.Add(activeCards[0]);
-            activeCards.RemoveAt(0);
-        }
+        DrawMultipleCards(startHandSize);
     }
 
-    public void PlayCard(Card_UScripptableObject cardSO, CardPlaceScript placePoint)
+    public void PlayCard(Card_U card, CardPlaceScript placePoint)
     {
-        Card_U newCard = Instantiate(cardToSpawn, cardSpawnPoint.position, cardSpawnPoint.rotation);
-        newCard.cardSO = cardSO;
-        
-       
-        newCard.SetupCard();
-        newCard.MoveToPoint(placePoint.transform.position, placePoint.transform.rotation);
+        Debug.Log("Playing card: " + card.cardSO.cardName + " at point: " + placePoint.name);
 
-        placePoint.activeCard = newCard;
-        newCard.assignedPoint = placePoint;
+        card.MoveToPoint(placePoint.transform.position, placePoint.transform.rotation);
 
-        cardsInHand.Remove(cardSO);
+        placePoint.activeCard = card;
+        card.assignedPoint = placePoint;
 
-        BattleScript.instance.SpendEnemyMana(cardSO.cardCost);
+        cardsInHand.Remove(card.cardSO);
+        EnemyHandController.instance.RemoveCardFromHand(card);
 
-        //AudioManager.instance.PlaySFX(4);
+        BattleScript.instance.SpendEnemyMana(card.cardSO.cardCost);
     }
 
-    Card_UScripptableObject SelectedCardToPlay()
+    Card_U SelectedCardToPlay()
     {
-        Card_UScripptableObject cardToPlay = null;
+        Card_U cardToPlay = null;
 
-        List<Card_UScripptableObject> cardsToPlay = new List<Card_UScripptableObject>();
-        foreach (Card_UScripptableObject card in cardsInHand)
+        List<Card_U> cardsToPlay = new List<Card_U>();
+        foreach (Card_U card in EnemyHandController.instance.heldCards)
         {
-            if (card.cardCost <= BattleScript.instance.enemyMana)
+            if (card.cardSO.cardCost <= BattleScript.instance.enemyMana)
             {
                 cardsToPlay.Add(card);
             }
@@ -311,11 +299,42 @@ public class AIController : MonoBehaviour
 
         if (cardsToPlay.Count > 0)
         {
-            int selected = Random.Range(0 ,cardsToPlay.Count);
-
+            int selected = Random.Range(0, cardsToPlay.Count);
             cardToPlay = cardsToPlay[selected];
+            Debug.Log("Selected card to play: " + cardToPlay.cardSO.cardName);
         }
 
-        return cardToPlay;   
+        return cardToPlay;
     }
+    public void DrawCardToHand()
+    {
+        if (activeCards.Count == 0)
+        {
+            SetupDeck();
+        }
+
+        Card_U newCard = Instantiate(cardToSpawn, cardSpawnPoint.position, cardSpawnPoint.rotation);
+        newCard.cardSO = activeCards[0];
+        newCard.SetupCard();
+        EnemyHandController.instance.AddCardToHand(newCard);
+
+        cardsInHand.Add(activeCards[0]);
+        activeCards.RemoveAt(0);
+
+        Debug.Log("Card drawn: " + newCard.cardSO.cardName);
+    }
+    public void DrawMultipleCards(int amountToDraw)
+    {
+        StartCoroutine(DrawMultipleCardsCo(amountToDraw));
+    }
+
+    IEnumerator DrawMultipleCardsCo(int amountToDraw)
+    {
+        for (int i = 0; i < amountToDraw; i++)
+        {
+            DrawCardToHand();
+            yield return new WaitForSeconds(0.25f); // Adjust the delay as needed
+        }
+    }
+
 }

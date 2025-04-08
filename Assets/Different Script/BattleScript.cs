@@ -18,7 +18,7 @@ public class BattleScript : MonoBehaviour
     public int startingCardsAmount = 6;
     public int cardsToDrawPerTurn = 1; 
 
-    public enum TurnOrder {playerActive, playerCardAttacks, enemyActive, enemyCardAttacks};
+    public enum TurnOrder {playerActive, playerCardAttacks,enemyMovement, enemyActive, enemyCardAttacks};
     public TurnOrder currentPhase;
     private int currentPlayerMaxMana, currentEnemyMaxMana;
 
@@ -33,10 +33,9 @@ public class BattleScript : MonoBehaviour
     public float resultScreenDelayTime;
 
     public void AdvanceTurn()
-        {
+    {
         if (battleEnded == false)
         {
-
             currentPhase++;
             if ((int)currentPhase >= System.Enum.GetValues(typeof(TurnOrder)).Length)
             {
@@ -60,28 +59,28 @@ public class BattleScript : MonoBehaviour
                     break;
                 case TurnOrder.playerCardAttacks:
                     Debug.Log("Player Card Attacks");
-                    // AdvanceTurn();
                     CardPointController.instance.PlayerAttack();
+                    break;
+                case TurnOrder.enemyMovement:
+                    Debug.Log("Enemy Movement");
+                    CardPointController.instance.EnemyMovement();
                     break;
                 case TurnOrder.enemyActive:
                     Debug.Log("Enemy Active");
-                    CardPointController.instance.EnemyMovement();
                     if (currentEnemyMaxMana < maxMana)
                     {
                         currentEnemyMaxMana++;
                     }
                     FillEnemyMana();
                     AIController.instance.StartAction();
-                    // AdvanceTurn();
                     break;
                 case TurnOrder.enemyCardAttacks:
                     Debug.Log("Enemy Card Attacks");
                     CardPointController.instance.EnemyAttack();
-                    //AdvanceTurn();
                     break;
-                }
             }
         }
+    }
     public void EndPlayerTurn()
         {
             UIController.instance.endTurnButton.SetActive(false);

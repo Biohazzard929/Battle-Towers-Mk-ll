@@ -35,9 +35,11 @@ public class Card_U : MonoBehaviour
 
     public Card_UScripptableObject.CardType cardType;
 
+    private EnemyHandController enemyHC;
+
     void Start()
     {
-        if(targetPoint == Vector3.zero)
+        if (targetPoint == Vector3.zero)
         {
             targetPoint = transform.position;
             targetRotation = transform.rotation;
@@ -45,6 +47,7 @@ public class Card_U : MonoBehaviour
         SetupCard();
 
         theHC = FindObjectOfType<HandController>();
+        enemyHC = FindObjectOfType<EnemyHandController>();
         theCollider = GetComponent<Collider>();
     }
 
@@ -124,6 +127,7 @@ public class Card_U : MonoBehaviour
 
     public void MoveToPoint(Vector3 pointToMoveTo, Quaternion rotToMatch)
     {
+        Debug.Log("Moving card: " + cardSO.cardName + " to point: " + pointToMoveTo);
         targetPoint = pointToMoveTo;
         targetRotation = rotToMatch;
     }
@@ -166,7 +170,15 @@ public class Card_U : MonoBehaviour
     {
         isSelected = false;
         theCollider.enabled = true;
-        MoveToPoint(theHC.cardPositions[handPosition], theHC.minPos.rotation);
+        if (isPlayer)
+        {
+            MoveToPoint(theHC.cardPositions[handPosition], theHC.minPos.rotation);
+        }
+        else
+        {
+            MoveToPoint(enemyHC.cardPositions[handPosition], Quaternion.Euler(0, 0, 0)); // Rotate 180 degrees to face away from the player
+        }
+        Debug.Log("Returning card: " + cardSO.cardName + " to hand");
     }
     public void DamageCard(int damageAmount, bool isCritical)
     {

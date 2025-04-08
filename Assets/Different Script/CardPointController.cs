@@ -99,11 +99,14 @@ public class CardPointController : MonoBehaviour
 
     public void EnemyMovement()
     {
+        Debug.Log("EnemyMovement method called");
         StartCoroutine(EnemyMovementCo());
     }
 
     public IEnumerator EnemyMovementCo()
     {
+        Debug.Log("EnemyMovementCo started");
+
         yield return new WaitForSeconds(timeBetweenAttacks);
         for (int i = 0; i < enemyCardPoints.Length; i++)
         {
@@ -111,11 +114,16 @@ public class CardPointController : MonoBehaviour
             {
                 if (enemyBackRow[i].activeCard != null)
                 {
+                    Debug.Log($"Moving card from back row to front row at index {i}");
+
                     enemyCardPoints[i].activeCard = enemyBackRow[i].activeCard;
                     enemyBackRow[i].activeCard = null;
                     enemyCardPoints[i].activeCard.MoveToPoint(enemyCardPoints[i].transform.position, enemyCardPoints[i].transform.rotation);
 
                     enemyCardPoints[i].activeCard.assignedPoint = enemyCardPoints[i];
+
+                    Debug.Log($"Card moved to front row: {enemyCardPoints[i].activeCard.cardSO.cardName}");
+
                     // Wait for the card to move before continuing
                     yield return new WaitForSeconds(timeBetweenAttacks);
                 }
@@ -123,6 +131,8 @@ public class CardPointController : MonoBehaviour
         }
 
         CheckAssignedCards();
+        BattleScript.instance.AdvanceTurn();
+        Debug.Log("EnemyMovementCo ended");
     }
 
     public void CheckAssignedCards()
