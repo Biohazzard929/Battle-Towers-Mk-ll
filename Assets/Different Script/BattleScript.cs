@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.Examples;
 using UnityEngine;
 //using TMPro;
 
@@ -32,6 +33,8 @@ public class BattleScript : MonoBehaviour
 
     public float resultScreenDelayTime;
 
+    public CameraController cameraController;
+
     public void AdvanceTurn()
     {
         if (battleEnded == false)
@@ -46,6 +49,7 @@ public class BattleScript : MonoBehaviour
             {
                 case TurnOrder.playerActive:
                     Debug.Log("Player Active");
+                    cameraController.SwitchToPlayerView(); //change camera angle to player view
                     UIController.instance.endTurnButton.SetActive(true);
 
                     if (currentPlayerMaxMana < maxMana)
@@ -58,11 +62,16 @@ public class BattleScript : MonoBehaviour
                     DeckController.instance.drawMultipleCards(cardsToDrawPerTurn);
                     break;
                 case TurnOrder.playerCardAttacks:
-                    Debug.Log("Player Card Attacks");
+                    if (HasActivePlayerCards())
+                    {
+                        Debug.Log("Player Card Attacks");
+                        cameraController.SwitchToBattleView();
+                    }//change camera angle to battle view
                     CardPointController.instance.PlayerAttack();
                     break;
                 case TurnOrder.enemyMovement:
                     Debug.Log("Enemy Movement");
+                    cameraController.SwitchToPlayerView();//change camera angle to player view
                     CardPointController.instance.EnemyMovement();
                     break;
                 case TurnOrder.enemyActive:
@@ -75,11 +84,24 @@ public class BattleScript : MonoBehaviour
                     AIController.instance.StartAction();
                     break;
                 case TurnOrder.enemyCardAttacks:
+                    //change camera angle to battle view
                     Debug.Log("Enemy Card Attacks");
+                   // cameraController.SwitchToBattleView();
                     CardPointController.instance.EnemyAttack();
                     break;
             }
         }
+    }
+    private bool HasActivePlayerCards()
+    {
+        foreach (var cardPoint in CardPointController.instance.playerCardPoints)
+        {
+            if (cardPoint.activeCard != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public void EndPlayerTurn()
         {
