@@ -49,19 +49,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fdd8a10157d40c74fbed407906855029, type: 2}
   - {fileID: 11400000, guid: 90915aa7dbc67e0488e34133bcbef285, type: 2}
   - {fileID: 11400000, guid: d16b8c5d84d344a40b18d3661be03c79, type: 2}
-  - {fileID: 11400000, guid: dcfbb0e066027674e901c77d55d40616, type: 2}
+  - {fileID: 11400000, guid: 7c4efaff514bdbf4994975e0a42eae85, type: 2}
   - {fileID: 11400000, guid: 10c0b42121285184da0ce49b917249b6, type: 2}
   - {fileID: 11400000, guid: faec0b240d7daf849b9d75912e70c50c, type: 2}
   - {fileID: 11400000, guid: dcfbb0e066027674e901c77d55d40616, type: 2}
   - {fileID: 11400000, guid: d16b8c5d84d344a40b18d3661be03c79, type: 2}
   - {fileID: 11400000, guid: dcfbb0e066027674e901c77d55d40616, type: 2}
   - {fileID: 11400000, guid: 10c0b42121285184da0ce49b917249b6, type: 2}
-  - {fileID: 11400000, guid: d16b8c5d84d344a40b18d3661be03c79, type: 2}
+  - {fileID: 11400000, guid: 666e1330087beda46a4cfc079004b62d, type: 2}
   - {fileID: 11400000, guid: d16b8c5d84d344a40b18d3661be03c79, type: 2}
   - {fileID: 11400000, guid: 10c0b42121285184da0ce49b917249b6, type: 2}
   - {fileID: 11400000, guid: dcfbb0e066027674e901c77d55d40616, type: 2}
   - {fileID: 11400000, guid: fdd8a10157d40c74fbed407906855029, type: 2}
   - {fileID: 11400000, guid: 90915aa7dbc67e0488e34133bcbef285, type: 2}
+  - {fileID: 11400000, guid: 20bf80d50706ee94caf8c3bf88e3bd16, type: 2}
+  - {fileID: 11400000, guid: 69944d1b2b345d04d8e8d9021c815b02, type: 2}
+  - {fileID: 11400000, guid: a9f1d74e79996e949a4d3c78e6064ce6, type: 2}
   cardToSpawn: {fileID: 2651954576017970037, guid: bd66c37078edd8041b994fbe0836c463, type: 3}
   drawCardCost: 2
   waitBetweenDrawingCards: 0.25

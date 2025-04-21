@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,15 +10,19 @@ public class AudioManager : MonoBehaviour
     {
         if (instance == null)
         {
-
             instance = this;
-
             DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
+
+        // make sure battle select does NOT loop
+        battleSelectMusic.loop = false;
+        // and your bgm tracks also do NOT loop individually
+        foreach (var track in bgm)
+            track.loop = false;
     }
 
     public AudioSource menuMusic;
@@ -26,8 +30,9 @@ public class AudioManager : MonoBehaviour
     public AudioSource[] bgm;
     private int currentBGM;
     private bool playingBGM;
+    private bool playingBattleSelect;
 
-    public AudioSource[] sfx;
+      public AudioSource[] sfx;
 
     // Start is called before the first frame update
     void Start()
@@ -35,19 +40,23 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+   
+
     void Update()
     {
+        // 1) If we’re in battle‑select mode and that clip has just finished…
+        if (playingBattleSelect && !battleSelectMusic.isPlaying)
+        {
+            playingBattleSelect = false;
+            PlayBGM();              // ← kick off the playlist
+        }
+
+        // 2) Your existing playlist logic
         if (playingBGM)
         {
-            if (bgm[currentBGM].isPlaying == false)
+            if (!bgm[currentBGM].isPlaying)
             {
-                currentBGM++;
-                if (currentBGM >= bgm.Length)
-                {
-                    currentBGM = 0;
-                }
-
+                currentBGM = (currentBGM + 1) % bgm.Length;
                 bgm[currentBGM].Play();
             }
         }
@@ -57,12 +66,11 @@ public class AudioManager : MonoBehaviour
     {
         menuMusic.Stop();
         battleSelectMusic.Stop();
-        foreach (AudioSource track in bgm)
-        {
-            track.Stop();
-        }
+        foreach (var track in bgm) track.Stop();
 
         playingBGM = false;
+        // ensure battle‑select flag is off if you manually stop
+        playingBattleSelect = false;
     }
 
     public void PlayMenuMusic()
@@ -73,19 +81,16 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBattleSelectMusic()
     {
-        if (battleSelectMusic.isPlaying == false)
-        {
-            StopMusic();
-            battleSelectMusic.Play();
-        }
+        StopMusic();
+        playingBattleSelect = true;   // ← enter battle‑select mode
+        battleSelectMusic.Play();
     }
 
     public void PlayBGM()
     {
-        StopMusic();
-
+        StopMusic();                  // stop anything else
+        // pick a random starting point
         currentBGM = Random.Range(0, bgm.Length);
-
         bgm[currentBGM].Play();
         playingBGM = true;
     }

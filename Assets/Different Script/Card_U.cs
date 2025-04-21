@@ -157,12 +157,12 @@ public class Card_U : MonoBehaviour
 
             justPressed = true;
 
-            // if (placePoint != null && placePoint.isPlayerPoint == isPlayer)
-            // {
-            //     placePoint.PlaceCard(this);
-            //     isInHand = false;
-            //     HandController.instance.RemoveCardFromHand(this);
-            // }
+             /*if (placePoint != null && placePoint.isPlayerPoint == isPlayer)
+             {
+                 placePoint.PlaceCard(this);
+                 isInHand = false;
+                 HandController.instance.RemoveCardFromHand(this);
+            }*/
         }
     }
 

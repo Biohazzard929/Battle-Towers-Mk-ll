@@ -841,17 +841,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 975872729555447791, guid: d10a5eb1b626e1f49a4bacc602022042, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1004240525899714982, guid: d10a5eb1b626e1f49a4bacc602022042, type: 3}
       propertyPath: m_Name
       value: UI Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 3007085914157552287, guid: d10a5eb1b626e1f49a4bacc602022042, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PauseUnpause
+    - target: {fileID: 2237571456399819531, guid: d10a5eb1b626e1f49a4bacc602022042, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8571011561620693890, guid: d10a5eb1b626e1f49a4bacc602022042, type: 3}
       propertyPath: m_Pivot.x
@@ -1071,30 +1067,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeckController
       objectReference: {fileID: 0}
-    - target: {fileID: 4514108403810043967, guid: 7260b66f5c5896c40b9760315277e447, type: 3}
-      propertyPath: deckToUse.Array.size
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 4514108403810043967, guid: 7260b66f5c5896c40b9760315277e447, type: 3}
-      propertyPath: deckToUse.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 7c4efaff514bdbf4994975e0a42eae85, type: 2}
-    - target: {fileID: 4514108403810043967, guid: 7260b66f5c5896c40b9760315277e447, type: 3}
-      propertyPath: deckToUse.Array.data[10]
-      value: 
-      objectReference: {fileID: 11400000, guid: 666e1330087beda46a4cfc079004b62d, type: 2}
-    - target: {fileID: 4514108403810043967, guid: 7260b66f5c5896c40b9760315277e447, type: 3}
-      propertyPath: deckToUse.Array.data[16]
-      value: 
-      objectReference: {fileID: 11400000, guid: 20bf80d50706ee94caf8c3bf88e3bd16, type: 2}
-    - target: {fileID: 4514108403810043967, guid: 7260b66f5c5896c40b9760315277e447, type: 3}
-      propertyPath: deckToUse.Array.data[17]
-      value: 
-      objectReference: {fileID: 11400000, guid: 69944d1b2b345d04d8e8d9021c815b02, type: 2}
-    - target: {fileID: 4514108403810043967, guid: 7260b66f5c5896c40b9760315277e447, type: 3}
-      propertyPath: deckToUse.Array.data[18]
-      value: 
-      objectReference: {fileID: 11400000, guid: a9f1d74e79996e949a4d3c78e6064ce6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
