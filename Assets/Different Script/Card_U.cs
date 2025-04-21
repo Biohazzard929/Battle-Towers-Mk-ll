@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Card_U : MonoBehaviour
 {
     public Card_UScripptableObject cardSO;
-    public int currentHealth; 
+    public int currentHealth;
     public int attackPower, cardCost;
     public TMP_Text healthText, attackText, costText, cardNameText, creatureTypeText;
     public Image characterImage, bgImage, creatureType;
@@ -20,7 +20,7 @@ public class Card_U : MonoBehaviour
     public bool isInHand = false;
     public int handPosition;
     private HandController theHC;
-    
+
     private bool isSelected;
     private Collider theCollider;
 
@@ -66,7 +66,7 @@ public class Card_U : MonoBehaviour
         bgImage.sprite = cardSO.bgSprite;
         creatureTypeText.text = cardSO.creatureType.ToString();
         creatureType.sprite = cardSO.creatureTypeSprite;
-        
+
         cardType = cardSO.cardType;
     }
 
@@ -92,38 +92,54 @@ public class Card_U : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, 100f, isPlacement) && BattleScript.instance.currentPhase == BattleScript.TurnOrder.playerActive)
                 {
                     CardPlaceScript selectedPoint = hit.collider.GetComponent<CardPlaceScript>();
-                    if (selectedPoint.activeCard == null && selectedPoint.isPlayerPoint)
+                    if (selectedPoint.isPlayerPoint)
                     {
-                        if(BattleScript.instance.playerMana >= cardCost)
+                        // can place here whether or not there's already a card
+                        if (BattleScript.instance.playerMana >= cardCost)
                         {
-                        selectedPoint.activeCard = this;
-                        assignedPoint = selectedPoint;
+                            // 1) Discard any existing card
+                            if (selectedPoint.activeCard != null)
+                            {
+                                Card_U oldCard = selectedPoint.activeCard;
+                                selectedPoint.activeCard = null;
+                                oldCard.assignedPoint = null;
 
-                        MoveToPoint(selectedPoint.transform.position, Quaternion.identity);
+                                // send it to the central discard transform
+                                oldCard.MoveToPoint(BattleScript.instance.discard.position,
+                                                     oldCard.transform.rotation);
+                                // optionally animate/fade it out, then destroy
+                                Destroy(oldCard.gameObject, 2f);
+                            }
 
-                        isInHand = false;
-                        isSelected = false;
+                            // 2) Place this card into the now‑empty slot
+                            selectedPoint.activeCard = this;
+                            assignedPoint = selectedPoint;
 
-                        theHC.RemoveCardFromHand(this);
+                            MoveToPoint(selectedPoint.transform.position, Quaternion.identity);
 
-                        BattleScript.instance.SpendPlayerMana(cardCost);
 
-                        AudioManager.instance.PlaySFX(4);
-                        } else
+                            // re‑enable collider so you can still right‑click it later
+                            theCollider.enabled = true;
+
+                            // update hand/payment state
+                            isInHand = false;
+                            isSelected = false;
+                            HandController.instance.RemoveCardFromHand(this);
+                            BattleScript.instance.SpendPlayerMana(cardCost);
+                            AudioManager.instance.PlaySFX(4);
+                        }
+                        else
                         {
-                           returnToHand();
+                            // not enough mana → return to hand
+                            returnToHand();
                             UIController.instance.showManaWarning();
                         }
                     }
                 }
-                else // Return to hand
-                {
-                    returnToHand();
-                }
             }
-        }
-        justPressed = false;
+        } justPressed = false;
     }
+
 
     public void MoveToPoint(Vector3 pointToMoveTo, Quaternion rotToMatch)
     {
